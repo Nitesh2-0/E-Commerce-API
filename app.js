@@ -15,6 +15,10 @@ app.use(express.urlencoded({extended:true}))
 
 app.use('/api/user',indexRouter);
 
+app.all('*',(req,res)=> {
+  res.status(404).json({url:req.url,message:'Page Not Found'})
+})
+
 
 app.listen(PORT, () =>{
   console.log(`Server is running on port ${PORT}`);

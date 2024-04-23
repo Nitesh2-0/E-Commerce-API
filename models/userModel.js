@@ -33,6 +33,7 @@ const userModel = new mongoose.Schema({
   password:{
     type:String,
     trim:true,
+    select:false,
     required:[true, 'password is required.'],
     minLength:[6,"paaword must be atleast 6 character"],
   }
