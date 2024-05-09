@@ -1,5 +1,7 @@
 # E-Commerce API
-This is an E-Commerce API designed by Nitesh Kumar for managing products, orders, and users in an online store.
+- This is in process .
+- This is an E-Commerce API designed by Nitesh Kumar for managing products, orders, and users in an online store.
+
 
 
 # For Register 
