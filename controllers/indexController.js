@@ -1,10 +1,10 @@
 const { isValidObjectId } = require('mongoose')
 const User  = require('../models/userModel')
+const Product = require('../models/productMode')
 
 exports.home   = (req,res, next) => {
   res.status(200).json('User come from Backend.')
 }
-
 
 exports.register = async (req,res, next) => {
   try {
@@ -37,6 +37,18 @@ exports.login = async (req, res, next) => {
   }
 }
 
+exports.products = async (req, res, next) => {
+  try {
+    const { ref, productName, productPrice, productImage, offers, stockQuantity } = req.body;
+    const product =  new Product({ref, productImage, productName, productPrice, offers, stockQuantity})
+    await product.save();
+    res.status(201).json({ success: true, message: 'Product added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 exports.readAll = async (req,res) =>{
   try {
     const users = await User.find(); 
@@ -44,5 +56,15 @@ exports.readAll = async (req,res) =>{
   } catch (error) {
     console.log(error.message);
     res.status(500).json({success:false, error:error.message})
+  }
+}
+
+exports.findProducts = async(req,res) =>{
+  try {
+    const allProducts = await Product.find()
+    res.status(200).json({success:true, allProducts})
+  } catch (error) {
+   console.log(error.message);
+   res.status(400).json({success:true,error:error.message})
   }
 }
