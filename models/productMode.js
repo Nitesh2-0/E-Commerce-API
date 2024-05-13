@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const User = require('./userModel');
 
 const productSchema = new Schema({
   ref: {

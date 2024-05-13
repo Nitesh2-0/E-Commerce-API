@@ -8,8 +8,8 @@ exports.home   = (req,res, next) => {
 
 exports.register = async (req,res, next) => {
   try {
-    const {name,username,email,gender,location,phone, password} = req.body
-    const user  =  new User({name, username, email, gender, location,phone,password})
+    const {name,username,email,gender,password} = req.body
+    const user  =  new User({name, username, email, gender,password})
     await user.save();
     res.status(201).json({success:true, user});
   } catch (error) {

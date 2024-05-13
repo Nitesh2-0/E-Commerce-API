@@ -9,6 +9,10 @@ const route = require('../controllers/indexController')
 
 router.get('/', route.home)
 
+router.get('/home', (req,res,next) => {
+  res.render('registration')
+})
+
 router.post('/register', route.register)
 
 router.post('/login', route.login)

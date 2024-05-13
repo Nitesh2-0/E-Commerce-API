@@ -30,27 +30,31 @@ const userModel = new mongoose.Schema({
     required: [true, 'Gender is required'],
     enum: ['male', 'female', 'others'],
   },
-  location: {
-    type: String,
-    required: [true, 'Location is required']
-  },
-  phone: {
-    type: Number,
-    validate: {
-      validator: function (v) {
-        return /^\d{10}$/.test(v);
-      },
-      message: 'Phone Number must be exactly 10 digits.'
-    },
-    required: [true, 'Phone Number is Required.']
-  },
+  // location: {
+  //   type: String,
+  //   // required: [true, 'Location is required']
+  // },
+  // phone: {
+  //   type: Number,
+  //   validate: {
+  //     validator: function (v) {
+  //       return /^\d{10}$/.test(v);
+  //     },
+  //     message: 'Phone Number must be exactly 10 digits.'
+  //   },
+  //   // required: [true, 'Phone Number is Required.']
+  // },
   password: {
     type: String,
     trim: true,
     select: false,
     required: [true, 'password is required.'],
     minLength: [6, "paaword must be atleast 6 character"],
-  }
+  },
+  profileImg:{
+    type:String,
+    default:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWFX-gwL4XeZEdf6PldRDWQ3efNrHvDm4CM74tq3pW0xEgKi8t4qzfgdfgrx5gVTevQ9k&usqp=CAU'
+  },
 })
 
 const User = mongoose.model("user", userModel);
