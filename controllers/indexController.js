@@ -1,46 +1,85 @@
-const { isValidObjectId } = require('mongoose')
-const User  = require('../models/userModel')
+const User = require('../models/userModel');
 const Product = require('../models/productMode')
+const bcrypt = require('bcrypt');
+const {generateToken} = require('../jwt')
 
-exports.home   = (req,res, next) => {
-  res.status(200).json('User come from Backend.')
-}
+exports.home = (req, res, next) => {
+  res.status(200).json('User come from Backend.');
+};
 
-exports.register = async (req,res, next) => {
+exports.register = async (req, res, next) => {
   try {
-    const {name,username,email,gender,password} = req.body
-    const user  =  new User({name, username, email, gender,password})
-    await user.save();
-    res.status(201).json({success:true, user});
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({success:false, error:error.message})
-  }
-}
+    const { name, username, email, gender, password } = req.body;
 
-exports.login = async (req, res, next) => {
-  try {
-    const {username,email, password} = req.body
-    const user = await User.findOne({ $or:[{username:username},{email:email}]}).select('+password');
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found. Please enter valid user details.' });
+    let existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    if (existingUser) {
+      return res.status(400).json({ success: false, error: 'Email or username already exists' });
     }
 
-    if (user.password !== password) {
-      return res.status(404).json({ success: false, message: 'Incorrect password. Please enter correct password.' });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, username, email, gender, password: hashedPassword });
+
+    const response = await user.save();
+    const payload = {
+      id:response._id,
+      username: response.username
     }
 
-    res.status(200).json({ success: true, message: 'Authentication successful. Valid user.' });
+    const token = generateToken(payload)
+    console.log('Token : ' + token);
+
+    res.status(201).json({ success: true, user });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ success: false, error: error.message });
   }
-}
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username && !email) {
+      return res.status(400).json({ success: false, error: 'Username or email is required' });
+    }
+    if (!password) {
+      return res.status(400).json({ success: false, error: 'Password is required' });
+    }
+
+    const user = await User.findOne({ $or: [{ email }, { username }] }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Invalid Credentials' });
+    }
+
+    if (!user.password) {
+      return res.status(500).json({ success: false, error: 'Internal Server Error: Password not found' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, error: 'Invalid Password' });
+    }
+
+    const payload = {
+      id:user.id,
+      username:user.username
+    }
+
+    const token = generateToken(payload); 
+    console.log("Token : " + token);
+
+    res.status(200).json({ success: true, message: 'User successfully logged in' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 exports.products = async (req, res, next) => {
   try {
     const { ref, productName, productPrice, productImage, offers, stockQuantity } = req.body;
-    const product =  new Product({ref, productImage, productName, productPrice, offers, stockQuantity})
+    const product = new Product({ ref, productImage, productName, productPrice, offers, stockQuantity })
     await product.save();
     res.status(201).json({ success: true, message: 'Product added successfully' });
   } catch (error) {
@@ -49,22 +88,22 @@ exports.products = async (req, res, next) => {
   }
 };
 
-exports.readAll = async (req,res) =>{
+exports.readAll = async (req, res) => {
   try {
-    const users = await User.find(); 
-    res.status(200).json({success:true, users});
+    const users = await User.find();
+    res.status(200).json({ success: true, users });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({success:false, error:error.message})
+    res.status(500).json({ success: false, error: error.message })
   }
 }
 
-exports.findProducts = async(req,res) =>{
+exports.findProducts = async (req, res) => {
   try {
     const allProducts = await Product.find()
-    res.status(200).json({success:true, allProducts})
+    res.status(200).json({ success: true, allProducts })
   } catch (error) {
-   console.log(error.message);
-   res.status(400).json({success:true,error:error.message})
+    console.log(error.message);
+    res.status(400).json({ success: true, error: error.message })
   }
 }

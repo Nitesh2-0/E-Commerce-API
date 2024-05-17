@@ -1,26 +1,27 @@
 const express = require('express');
-const router = express.Router(); 
-const route = require('../controllers/indexController')
-/**
- * @route
- * @access public
- * @method GET
- */
+const router = express.Router();
+const route = require('../controllers/indexController');
+const {jwtAuthMiddleware} = require('../jwt')
 
-router.get('/', route.home)
 
-router.get('/home', (req,res,next) => {
-  res.render('registration')
-})
+router.get('/', jwtAuthMiddleware ,route.home);
 
-router.post('/register', route.register)
+router.get('/home', (req, res, next) => {
+  res.render('registration');
+});
 
-router.post('/login', route.login)
+router.get('/loginForm', (req, res, next) => {
+  res.render('login');
+});
 
-router.post('/products-created', route.products)
+router.post('/register', route.register);
 
-router.get('/readAll', route.readAll)
+router.post('/login', route.login);
 
-router.get('/seeAllProducts', route.findProducts)
+router.post('/products-created', jwtAuthMiddleware ,route.products);
+
+router.get('/readAll', jwtAuthMiddleware ,route.readAll);
+
+router.get('/seeAllProducts',jwtAuthMiddleware,route.findProducts);
 
 module.exports = router;
