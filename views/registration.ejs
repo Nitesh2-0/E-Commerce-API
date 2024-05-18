@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="images/favicon.png" rel="icon">
+  <title>Oxyy - Login and Register Form Html Template</title>
+  <meta name="description" content="Login and Register Form Html Template">
+  <meta name="author" content="harnishdesign.net">
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+  <div id="errorAlert" class="alert hidden bg-red-500 text-white font-bold px-4 py-2 rounded w-auto">
+    <span id="errorMessage"></span>
+    <button class="closebtn text-white hover:text-black font-bold float-right">&times;</button>
+  </div>
+  <div class="flex">
+    <div class="form w-full h-screen lg:w-1/3 lg:h-screen flex flex-col justify-center">
+      <h1 class="text-white font-semibold text-3xl text-center mb-2">Sign Up</h1>
+      <form id="myForm" class="px-8">
+        <div class="mb-4">
+          <label for="username" class="block text-white mb-2">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username"
+            class="form-input mt-1 block w-full rounded-md bg-gray-800 text-gray-200 p-2">
+        </div>
+        <div class="mb-4">
+          <label for="name" class="block text-white mb-2">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name"
+            class="form-input mt-1 block w-full rounded-md bg-gray-800 text-gray-200 p-2">
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-white mb-2">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email"
+            class="form-input mt-1 block w-full rounded-md bg-gray-800 text-gray-200 p-2">
+        </div>
+        <div class="mb-4">
+          <label for="gender" class="block text-white mb-2">Gender</label>
+          <select id="gender" name="gender"
+            class="form-select mt-1 block w-full rounded-md bg-gray-800 text-gray-200 p-2">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-white mb-2">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter your password"
+            class="form-input mt-1 block w-full rounded-md bg-gray-800 text-gray-200 p-2">
+        </div>
+        <div class="mb-4">
+          <input type="checkbox" id="agreement" name="agreement" class="form-checkbox text-blue-300">
+          <label for="agreement" class="text-white ml-2">I agree to the terms and conditions</label>
+        </div>
+        <button type="submit"
+          class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 w-full">Register</button>
+      </form>
+
+      <div class="mt-8 text-center">
+        <p class="text-white">Already have an account? <a href="login.php" class="underline text-blue-300">Login
+            here</a>.
+        </p>
+      </div>
+    </div>
+    <div class="hidden lg:w-2/3 bg-gray-900 lg:flex hidden justify-center items-center relative">
+      <img
+        src="https://cdn.zeebiz.com/hindi/sites/default/files/2023/09/15/153809-online-shopping.png?im=FitAndFill=(1200,900)"
+        alt="" class="w-full h-screen">
+      <div class="absolute top-2 left-5 flex">
+        <img src="/images/log2.png" alt="" class="h-10 w-20 rounded">
+        <h1 class="font-bold text-2xl ml-2"><span class="text-sky-500">POM</span><span
+            class="text-yellow-200">POM</span> Store Online</h1>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    function closeAlert() {
+      var errorAlert = document.getElementById('errorAlert');
+      if (errorAlert) {
+        errorAlert.classList.add('hidden');
+      }
+    }
+  
+    setTimeout(closeAlert, 1000);
+  
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+  
+      const formData = new FormData(this);
+      const formDataObject = {};
+      formData.forEach(function (value, key) {
+        formDataObject[key] = value;
+      });
+  
+      axios.post('http://localhost:8080/api/user/register', formDataObject)
+        .then(function (response) {
+          console.log('Response:', response);
+          window.location.href = 'http://localhost:8080/api/user/product'; // Corrected line
+        })
+        .catch(function (error) {
+          console.log(error); // Corrected variable name
+          const errorMessage = document.getElementById('errorMessage');
+          errorMessage.textContent = error.message; // Display actual error message
+          document.getElementById('errorAlert').classList.remove('hidden');
+          console.log(error.message);
+        });
+  
+      console.log(formDataObject);
+    });
+  </script>
+  
+</body>
+
+</html>

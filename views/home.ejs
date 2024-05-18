@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POMPOM Fruits Store Online</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/images/log2.png" type="image/x-icon">
+</head>
+
+<body class="bg-slate-700">
+    <nav class="bg-gray-800 shadow-lg p-2  fixed top-0 w-full z-10 ">
+        <div class="px-6">
+            <div class="flex justify-between items-center p-2">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center hidden md:block">
+                    <a href="#"
+                        class="text-white text-2xl hidden md:block font-bold h-16 w-[8rem] overflow-hidden rounded"><img
+                            src="/images/log2.png" alt="" class=""></a>
+                </div>
+
+                <div class="flex-shrink-0 flex items-center block md:hidden">
+                    <!-- <a href="#"
+                        class="text-white text-2xl font-bold block md:hidden h-12 w-12 overflow-hidden rounded-full"><img
+                            src="./assets/logo1.png" alt="" class=""></a> -->
+                            <h1 class="text-red-500 font-bold text-xl"><span class="text-yellow-500">POM</span>POM</h1>
+                </div>
+
+                <!-- Delivering Updates -->
+                <div class="hidden md:flex items-center justify-center">
+                    <i class="ri-map-pin-fill text-white text-xl"></i>
+                    <div class="ml-2">
+                        <p class="text-xs text-gray-400 leading-3">Delivering to Bhopal 462022</p>
+                        <p class="text-white">Update location</p>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="hidden md:flex bg-slate-700 rounded-lg text-white items-center overflow-hidden w-1/2">
+                    <select
+                        class="search-selectv rounded-l w-16 text-white px-3 py-2 rounded-lnp bg-slate-700 focus:outline-none"
+                        id="addOption">
+                        <option>All</option>
+                    </select>
+                    <input type="text" placeholder="Search Products"
+                        class="px-3 w-[100%] py-2 w-64 bg-slate-700 text-white rounded-r focus:outline-none placeholder-gray-400">
+                    <div class="p-2 bg-gray-600 h-full rounded-r flex items-center">
+                        <i class="fas fa-search text-white text-xs p-1 cursor-pointer"></i>
+                    </div>
+                </div>
+
+                <!-- Shopping Cart -->
+                <div class="relative" id="shopingCart">
+                    <i class="ri-shopping-bag-4-fill text-white text-3xl md:text-xl border border-indigo-600 p-2 rounded-full"
+                        id="showAllProductOfAddToCart">
+                        <div
+                            class="absolute -top-2 left-1/6 transform -translate-x-1/2 flex items-center justify-center">
+                            <p class="text-white bg-blue-800 px-2 py-1 rounded-full text-xs" id="productAvilable">0</p>
+                        </div>
+                    </i>
+                </div>
+
+                <!-- Profile -->
+                <div class="flex items-center md:flex">
+                    <div class="relative items-center">
+                        <button id="profile-btn" class="text-white focus:outline-none flex flex-col items-center gap-1">
+                            <img class="h-7 w-7 rounded-full border-2 border-gray-400" src="/images/ProfileImage.png"
+                                alt="">
+                            <div class="ml-2">
+                                <p class="text-base text-xs leading-3">Nitesh</p>
+                            </div>
+                        </button>
+
+                        <!-- Profile dropdown -->
+                        <div id="profile-dropdown"
+                            class="hidden mt-2 w-48 bg-gray-800 rounded shadow-lg overflow-hidden z-10 absolute right-1 md:right-2">
+                            <div class="py-1">
+                                <div
+                                    class="w-full h-auto p-2 relative bg-gray-600 flex flex-col justify-center items-center rounded">
+                                    <img src="/images/ProfileImage.png" alt=""
+                                        class="h-16 w-16 rounded-full border-2 border-gray-400" id="profileImag">
+                                    <a href="http://127.0.0.1:5500/index.html" class="absolute hidden"
+                                        id="profileImgEditor"><i class="ri-edit-2-fill "></i></a>
+                                </div>
+                                <div class="block px-4 py-2 text-sm text-gray-200">Name : Nitesh Kumar</div>
+                                <div class="block px-4 py-2 text-sm text-gray-200">Country : India </div>
+                                <div class="block px-4 py-2 text-sm text-gray-200">User Type : Buyer</div>
+                                <div class="flex justify-center items-center gap-10">
+                                    <button class="text-red-700 bg-slate-700 p-1 px-2 rounded-md"
+                                        id="logout-btn">Logout</button>
+                                    <button class="text-blue-700 bg-slate-700 p-1 px-2 rounded-md"
+                                        id="logout-btn">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu bar -->
+                <div class="hidden flex gap-10 relative" id="menue">
+                    <i class="ri-menu-3-line text-white text-5xl" ></i>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="w-full h-auto mt-[5%]">
+        <div
+            class="mostFrequent w-full mt-20 md:mt-24 bg-gray-800 flex flex-grow-0 gap-10 items-center p-3 px-7 shadow-slate-700">
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper w-full bg-gray-700">
+            <div class="swiper-wrapper bg-gray-700">
+                <div class="swiper-slide flex justify-center items-center">
+                    <img src="/images/Nitesh Kumar Yadav (1).png" alt="">
+                </div>
+                <div class="swiper-slide flex justify-center items-center ">
+                    <img src="/images/Nitesh Kumar Yadav (2).png" alt="">
+                </div>
+                <div class="swiper-slide flex justify-center items-center">
+                    <img src="/images/Nitesh Kumar Yadav (3).png" alt="">
+                </div>
+                <div class="swiper-slide flex justify-center items-center ">
+                    <img src="/images/Nitesh Kumar Yadav (2).png" alt="">
+                </div>
+            </div>
+            <div class="swiper-button-next text-white"></div>
+            <div class="swiper-button-prev text-white"></div>
+            <div class="swiper-pagination text-white"></div>
+        </div>
+    </div>
+
+    <div class="main w-full h-auto bg-slate-700 text-white p-5 flex gap-5 flex-wrap justify-center pt-5 " id="main-section"></div>
+
+    <div class="avilableProductRaper p-2 bg-gray-600 overflow-y-auto h-[88%]">
+        <h3 class="text-xl font-semibold text-gray-200 text-center mb-2">All Selected Collections</h3>
+    </div>
+
+    <section class="py-20 px-4 ">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Become a Product Creator</h2>
+            <p class="text-lg text-gray-400 mb-8 ">Join our community of creators and start building your own products
+                today.</p>
+            <a href="/api/user/seller"
+                class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-md transition duration-300">Get
+                Started</a>
+        </div>
+        <div class="max-w-4xl mx-auto mt-16 grid grid-cols-1 sm:grid-cols-2 gap-12">
+            <div class="bg-white rounded-lg p-8 flex items-center justify-center shadow-md">
+                <div class="text-blue-500 bg-blue-100 rounded-full p-4">
+                    <i class="ri-store-line ri-3x"></i>
+                </div>
+                <div class="ml-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Create Your Own Store</h3>
+                    <p class="text-gray-600">Start selling your products by creating your own online store.</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-8 flex items-center justify-center shadow-md">
+                <div class="text-blue-500 bg-blue-100 rounded-full p-4">
+                    <i class="ri-money-dollar-circle-line ri-3x"></i>
+                </div>
+                <div class="ml-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Earn Money</h3>
+                    <p class="text-gray-600">Earn money by selling your products and growing your customer base.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 sm:py-12">
+        <div class="container mx-auto flex flex-wrap justify-between px-20">
+            <div class="w-full sm:w-1/2 md:w-1/4 mb-6 sm:mb-0">
+                <h2 class="text-lg font-semibold mb-4">Navigation</h2>
+                <ul>
+                    <li><a href="#" class="block hover:text-gray-400">Home</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">Shop</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">About Us</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">Contact Us</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/4 mb-6 sm:mb-0">
+                <h2 class="text-lg font-semibold mb-4">Social Media</h2>
+                <ul>
+                    <li><a href="#" class="block hover:text-gray-400">Facebook</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">Twitter</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">Instagram</a></li>
+                    <li><a href="#" class="block hover:text-gray-400">Pinterest</a></li>
+                </ul>
+            </div>
+            <div class="w-full sm:w-1/2 md:w-1/4 mb-6 sm:mb-0">
+                <h2 class="text-lg font-semibold mb-4">Contact Information</h2>
+                <p class="mb-2">Address: Bhopal Madhya Pradesh 46202</p>
+                <p class="mb-2">Phone: +91 9155061725</p>
+                <p>Email: niteshkr16062004@gmail.com</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+            <p class="text-sm">&copy; POMPOM Fruits Store <span class="hidden sm:inline-block">|</span> 2024-2026</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="/script.js"></script>
+</body>
+
+</html>

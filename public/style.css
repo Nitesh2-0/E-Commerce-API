@@ -1,0 +1,160 @@
+/* Editor on hover show */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: rgb(38, 191, 211);
+}
+body::-webkit-scrollbar {
+  width: 10px;
+  height: 50px; 
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(91, 160, 160); 
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgb(54, 54, 54); 
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #0646c7; 
+}
+#profileImag:hover + #profileImgEditor,
+#profileImgEditor:hover {
+    display: block;
+    color: white;
+}
+
+select{
+  overflow: hidden;
+  outline: none;
+}
+
+
+.cartFrame {
+  width: 280px;
+  height: fit-content;
+  background-color: #383535;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 10px;
+  transition: all cubic-bezier(0.215, 0.610, 0.355, 1) 1s;
+}
+.cartFrame:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 400px) {
+  .cartFrame {
+    width: 90%;
+    max-width: 400px;
+  }
+  .avilableProductRaper {
+    width: 100vw; 
+    left: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cartFrame {
+    width: 380px;
+  }
+}
+
+.cartFrame img{
+  width: fit-content;
+  height: 50%;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.container1, .container2{
+  display: flex;
+  justify-content: space-between;
+  padding: 2px; 
+}
+
+.container1 p:nth-child(1){
+  background-color: #20602f;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+.price{
+  background-color: #1f5d2e;
+  border-radius: 2px;
+  padding: 2px 5px;
+}
+
+.addBtn {
+  background-color: #0c76cc;
+  border-radius: 2px;
+  padding: 2px 5px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.avilableProductRaper {
+  width: 40vw;
+  height: auto;
+  position: absolute;
+  background-color: rgb(30, 41, 59);
+  top: 13%;
+  z-index: 9;
+  left: -100%;
+  transition: left 1s;
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1b1a1a; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: rgb(100 116 139);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #06c229; 
+}
+
+.mostFrequent {
+  overflow-x: auto; 
+  white-space: nowrap; 
+}
+.mostFrequent::-webkit-scrollbar{
+  display: none;
+}
+
+.contsPname{
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 2px;
+  padding-left: 5px;
+  box-shadow: 7px 7px 7px rgba(68, 64, 60, 0.58);
+  margin-bottom: 5px;
+  background-color: rgba(68, 64, 60, 0.164);
+}
+
+/* For small devices (full width) */
+.w-full {
+  width: 100%;
+}
+
+/* For larger devices (40% width) */
+@media (min-width: 768px) {
+  .md\:w-40 {
+    width: 40%;
+  }
+}
+

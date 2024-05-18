@@ -4,15 +4,21 @@ const route = require('../controllers/indexController');
 const {jwtAuthMiddleware} = require('../jwt')
 
 
-router.get('/', jwtAuthMiddleware ,route.home);
+router.get('/' ,route.home);
 
-router.get('/home', (req, res, next) => {
-  res.render('registration');
-});
+// router.get('/home', (req, res, next) => {
+//   res.render('registration');
+// });
+
+router.get('/seller', route.sellerProfile)
 
 router.get('/loginForm', (req, res, next) => {
   res.render('login');
 });
+
+router.get('/product', (req,res) => {
+  res.render('products')
+})
 
 router.post('/register', route.register);
 

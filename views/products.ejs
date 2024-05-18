@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="max-w-lg mx-auto bg-white p-8 rounded shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">Product Management</h1>
+        
+        <!-- Form to create a new product -->
+        <h2 class="text-lg font-semibold mb-4">Create Product</h2>
+        <form id="createProductForm">
+            <div class="mb-4">
+                <label for="productName" class="block text-gray-700">Product Name:</label>
+                <input type="text" id="productName" name="productName" required class="mt-1 p-2 block w-full rounded-md border-gray-300">
+            </div>
+            
+            <div class="mb-4">
+                <label for="productPrice" class="block text-gray-700">Product Price:</label>
+                <input type="number" id="productPrice" name="productPrice" required class="mt-1 p-2 block w-full rounded-md border-gray-300">
+            </div>
+            
+            <div class="mb-4">
+                <label for="offers" class="block text-gray-700">Offers:</label>
+                <input type="number" id="offers" name="offers" class="mt-1 p-2 block w-full rounded-md border-gray-300">
+            </div>
+            
+            <div class="mb-4">
+                <label for="stockQuantity" class="block text-gray-700">Stock Quantity:</label>
+                <input type="number" id="stockQuantity" name="stockQuantity" required class="mt-1 p-2 block w-full rounded-md border-gray-300">
+            </div>
+            
+            <div class="mb-4">
+                <label for="images" class="block text-gray-700">Images:</label>
+                <input type="file" id="images" name="images" multiple accept="image/*" class="mt-1 p-2 block w-full rounded-md border-gray-300">
+            </div>
+            
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Product</button>
+        </form>
+
+        <!-- Placeholder for displaying API responses -->
+        <div id="response" class="mt-8"></div>
+    </div>
+
+    <script>
+        document.getElementById("createProductForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            // Prepare form data
+            const formData = new FormData();
+            formData.append("productName", document.getElementById("productName").value);
+            formData.append("productPrice", document.getElementById("productPrice").value);
+            formData.append("offers", document.getElementById("offers").value);
+            formData.append("stockQuantity", document.getElementById("stockQuantity").value);
+            const imageFiles = document.getElementById("images").files;
+            for (let i = 0; i < imageFiles.length; i++) {
+                formData.append("images", imageFiles[i]);
+            }
+            
+            // Make API request to create product
+            try {
+                const response = await fetch("http://localhost:8080/api/user/products-created", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                // Display response
+                const jsonResponse = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(jsonResponse, null, 2);
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        });
+    </script>
+</body>
+</html>

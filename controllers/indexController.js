@@ -1,11 +1,16 @@
 const User = require('../models/userModel');
 const Product = require('../models/productMode')
 const bcrypt = require('bcrypt');
-const {generateToken} = require('../jwt')
+const { generateToken } = require('../jwt')
 
 exports.home = (req, res, next) => {
-  res.status(200).json('User come from Backend.');
+  // res.status(200).json('User come from Backend.');
+  res.render('home')
 };
+
+exports.sellerProfile = (req,res,next) => {
+  res.render('sellerProfile')
+}
 
 exports.register = async (req, res, next) => {
   try {
@@ -21,7 +26,7 @@ exports.register = async (req, res, next) => {
 
     const response = await user.save();
     const payload = {
-      id:response._id,
+      id: response._id,
       username: response.username
     }
 
@@ -62,11 +67,11 @@ exports.login = async (req, res, next) => {
     }
 
     const payload = {
-      id:user.id,
-      username:user.username
+      id: user.id,
+      username: user.username
     }
 
-    const token = generateToken(payload); 
+    const token = generateToken(payload);
     console.log("Token : " + token);
 
     res.status(200).json({ success: true, message: 'User successfully logged in' });
@@ -78,10 +83,14 @@ exports.login = async (req, res, next) => {
 
 exports.products = async (req, res, next) => {
   try {
-    const { ref, productName, productPrice, productImage, offers, stockQuantity } = req.body;
-    const product = new Product({ ref, productImage, productName, productPrice, offers, stockQuantity })
+    const { productName, productPrice, offers, stockQuantity } = req.body;
+    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+      return res.status(400).json({ success: false, error: 'No images uploaded' });
+    }
+    const productImage = req.files.map(file => file.path)
+    const product = new Product({ productName, productPrice,productImage, offers, stockQuantity })
     await product.save();
-    res.status(201).json({ success: true, message: 'Product added successfully' });
+    res.status(201).json({ success: true, message: 'Product created successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: error.message });

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body class="flex items-center justify-center min-h-screen bg-gray-100 relative">
+  <div id="loader" class="fixed top-0 right-2 bg-indigo-600 text-white text-center py-2 hidden inline-block p-2 rounded top-5">
+    <span id="loader-message"></span>
+  </div>
+
+  <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+    <div class="text-center mb-6">
+      <img src="/images/logo1.png" alt="Logo" class="w-12 mx-auto mb-4">
+      <h1 class="text-2xl font-bold">Welcome Back!</h1>
+    </div>
+    <form id="login-form" class="space-y-6">
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">Email or Username</label>
+        <input type="text" id="username" name="username"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Email or Username">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" name="password"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Password">
+      </div>
+      <div class="flex items-center justify-between">
+        <label class="flex items-center">
+          <input type="checkbox" name="remember"
+            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+          <span class="ml-2 block text-sm text-gray-900">Remember Me</span>
+        </label>
+        <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Forgot Password?</a>
+      </div>
+      <div id="error-message" class="text-red-500 text-sm hidden"></div>
+      <div id="success-message" class="text-green-500 text-sm hidden"></div>
+      <div>
+        <button type="submit"
+          class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Log
+          In</button>
+      </div>
+      <div class="flex items-center my-4">
+        <hr class="flex-grow border-gray-300">
+        <span class="px-4 text-sm text-gray-600">or</span>
+        <hr class="flex-grow border-gray-300">
+      </div>
+      <div class="space-y-2">
+        <button type="button"
+          class="w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Log
+          in with Google</button>
+      </div>
+    </form>
+    <div class="mt-6 text-center text-sm text-gray-600">
+      <p>Don't have an account? <a href="#" class="text-indigo-600 hover:text-indigo-500">Sign Up</a></p>
+      <p><a href="#" class="text-indigo-600 hover:text-indigo-500">Terms of Service</a> | <a href="#"
+          class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a></p>
+    </div>
+  </div>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const loader = document.getElementById('loader');
+      const loaderMessage = document.getElementById('loader-message');
+      const errorMessage = document.getElementById('error-message');
+      const successMessage = document.getElementById('success-message');
+
+      // Reset messages
+      errorMessage.classList.add('hidden');
+      successMessage.classList.add('hidden');
+      loader.classList.remove('hidden');
+      loader.classList.remove('bg-green-600', 'bg-red-600');
+      loader.classList.add('bg-indigo-600');
+      loaderMessage.textContent = 'Logging in...';
+
+      axios.post('http://localhost:8080/api/user/login', {
+        username: username,
+        password: password
+      })
+        .then(function (response) {
+          loaderMessage.textContent = 'Login successful!';
+          loader.classList.remove('bg-indigo-600');
+          loader.classList.add('bg-green-600');
+          setTimeout(() => {
+            loader.classList.add('hidden');
+            window.location.href = '/dashboard';
+          }, 5000);
+        })
+        .catch(function (error) {
+          loaderMessage.textContent = error.response.data.message || 'An error occurred. Please try again.';
+          loader.classList.remove('bg-indigo-600');
+          loader.classList.add('bg-red-600');
+          setTimeout(() => {
+            loader.classList.add('hidden');
+          }, 1000);
+        });
+    });
+  </script>
+</body>
+
+</html>
